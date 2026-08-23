@@ -1,0 +1,2585 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0d6b46">
+
+    <title>
+        Smart Komposter - Wadah pupuk organik pintar menggunakan komunikasi data ethernet
+    </title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================================================
+     SIDEBAR
+========================================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            🌱
+        </div>
+
+        <div class="brand-text">
+
+            <strong>Smart</strong>
+            <strong>Komposter</strong>
+
+            <small>
+                ETHERNET IoT SYSTEM
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="project-card">
+
+        <span data-i18n="project_label">
+            SMART KOMPOSTER
+        </span>
+
+        <strong data-i18n="project_name">
+            Wadah Pupuk Organik Pintar
+        </strong>
+
+        <small data-i18n="ethernet_communication">
+            Komunikasi Data Ethernet
+        </small>
+
+    </div>
+
+
+    <div class="menu-label"
+         data-i18n="main_menu">
+        MENU UTAMA
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <button class="nav-item active"
+                data-page="dashboard">
+
+            <span>▦</span>
+            <b data-i18n="dashboard">Dashboard</b>
+
+        </button>
+
+
+        <button class="nav-item"
+                data-page="monitoring">
+
+            <span>◉</span>
+            <b data-i18n="monitoring">Monitoring Real-Time</b>
+
+        </button>
+
+
+        <button class="nav-item"
+                data-page="history">
+
+            <span>▤</span>
+            <b data-i18n="history">Riwayat Monitoring</b>
+
+        </button>
+
+
+        <button class="nav-item"
+                data-page="analytics">
+
+            <span>◔</span>
+            <b data-i18n="analytics">Analitik & Statistik</b>
+
+        </button>
+
+
+        <button class="nav-item"
+                data-page="control">
+
+            <span>⚙</span>
+            <b data-i18n="control">Kontrol Perangkat</b>
+
+        </button>
+
+
+        <!-- TRANSMITTER -->
+
+        <button class="nav-item"
+                data-page="transmitter">
+
+            <span>⇧</span>
+            <b data-i18n="transmitter">Transmitter</b>
+
+        </button>
+
+
+        <!-- RECEIVER -->
+
+        <button class="nav-item"
+                data-page="receiver">
+
+            <span>⇩</span>
+            <b data-i18n="receiver">Receiver</b>
+
+        </button>
+
+
+        <div class="menu-label system"
+             data-i18n="system_menu">
+            SISTEM
+        </div>
+
+
+        <button class="nav-item"
+                data-page="status">
+
+            <span>◈</span>
+            <b data-i18n="system_status">Status Sistem</b>
+
+        </button>
+
+
+        <button class="nav-item"
+                data-page="notifications">
+
+            <span>🔔</span>
+            <b data-i18n="notifications">Notifikasi</b>
+
+            <em id="notificationBadge">
+                3
+            </em>
+
+        </button>
+
+
+        <button class="nav-item"
+                data-page="settings">
+
+            <span>☷</span>
+            <b data-i18n="settings">Pengaturan</b>
+
+        </button>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="online-card">
+
+            <span class="online-dot"></span>
+
+            <div>
+
+                <strong data-i18n="system_online">
+                    Sistem Online
+                </strong>
+
+                <small data-i18n="ethernet_connected">
+                    Ethernet Connected
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="device-card-small">
+
+            <span>DEVICE</span>
+
+            <strong>SK-001</strong>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<main class="main">
+
+<!-- =========================================================
+     TOPBAR
+========================================================= -->
+
+<header class="topbar">
+
+    <div class="top-left">
+
+        <button class="hamburger"
+                id="menuButton">
+            ☰
+        </button>
+
+        <div>
+
+            <span class="eyebrow">
+                SMART KOMPOSTER SYSTEM
+            </span>
+
+            <h2 id="pageTitle"
+                data-i18n="dashboard">
+                Dashboard
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="top-right">
+
+        <div class="viewport-status"
+             id="viewportStatus">
+
+            <span class="viewport-dot"></span>
+
+            <div>
+                <strong id="viewportType">
+                    Desktop
+                </strong>
+
+                <small id="viewportResolution">
+                    1920 × 1080
+                </small>
+            </div>
+
+        </div>
+
+
+        <button class="theme-button"
+                id="themeButton"
+                title="Mode Gelap / Terang">
+
+            ☾
+
+        </button>
+
+
+        <select id="language"
+                class="language-select">
+
+            <option value="id">
+                ID
+            </option>
+
+            <option value="en">
+                EN
+            </option>
+
+        </select>
+
+
+        <div class="connection">
+
+            <i></i>
+
+            <span data-i18n="online">
+                ONLINE
+            </span>
+
+        </div>
+
+
+        <div class="date-box">
+
+            <small data-i18n="date">
+                TANGGAL
+            </small>
+
+            <strong id="date">
+                --
+            </strong>
+
+        </div>
+
+
+        <strong class="clock"
+                id="clock">
+            00:00:00
+        </strong>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     CONTENT
+========================================================= -->
+
+<div class="content">
+
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<section class="page active"
+         id="dashboard">
+
+
+    <!-- HERO -->
+
+    <div class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                ● SMART AGRICULTURE IoT
+            </span>
+
+
+            <h1 data-i18n="hero_title">
+                Smart Komposter - Wadah pupuk organik pintar
+                menggunakan komunikasi data ethernet
+            </h1>
+
+
+            <p data-i18n="hero_description">
+                Sistem monitoring dan kontrol berbasis IoT
+                untuk memantau suhu, kelembapan, Nitrogen,
+                Fosfor dan Kalium secara real-time.
+            </p>
+
+
+            <div class="hero-info">
+
+                <div>
+                    <small data-i18n="microcontroller">
+                        MICROCONTROLLER
+                    </small>
+
+                    <strong>
+                        ATmega328
+                    </strong>
+                </div>
+
+
+                <div>
+                    <small data-i18n="iot_controller">
+                        IoT CONTROLLER
+                    </small>
+
+                    <strong>
+                        ESP32
+                    </strong>
+                </div>
+
+
+                <div>
+                    <small data-i18n="communication">
+                        KOMUNIKASI
+                    </small>
+
+                    <strong>
+                        Ethernet
+                    </strong>
+                </div>
+
+
+                <div>
+                    <small data-i18n="sensor">
+                        SENSOR
+                    </small>
+
+                    <strong>
+                        NPK + Lingkungan
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="health-box">
+
+            <div class="health-circle">
+
+                <strong id="health">
+                    98%
+                </strong>
+
+                <span data-i18n="health">
+                    HEALTH
+                </span>
+
+            </div>
+
+            <strong id="systemCondition"
+                    data-i18n="system_normal">
+                Sistem Beroperasi Normal
+            </strong>
+
+            <small data-i18n="sensor_network_active">
+                Sensor & jaringan aktif
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- SENSOR -->
+
+    <div class="section-heading">
+
+        <div>
+
+            <span class="eyebrow">
+                REAL-TIME SENSOR HUB
+            </span>
+
+            <h2 data-i18n="integrated_monitoring">
+                Monitoring Sensor Terpadu
+            </h2>
+
+            <p data-i18n="integrated_description">
+                Seluruh hasil pengukuran sensor ditampilkan
+                dalam satu blok agar lebih mudah dipantau.
+            </p>
+
+        </div>
+
+
+        <span class="live-badge">
+
+            <i></i>
+
+            <span data-i18n="live_sensor">
+                LIVE SENSOR
+            </span>
+
+        </span>
+
+    </div>
+
+
+    <div class="sensor-block">
+
+
+        <!-- TEMPERATURE -->
+
+        <article class="sensor-card">
+
+            <div class="sensor-top">
+
+                <span class="sensor-icon">
+                    🌡️
+                </span>
+
+                <span class="status-pill"
+                      id="tempStatus">
+                    NORMAL
+                </span>
+
+            </div>
+
+
+            <small data-i18n="temperature">
+                SUHU
+            </small>
+
+
+            <strong class="sensor-value"
+                    id="temperature">
+
+                32.5
+                <span>°C</span>
+
+            </strong>
+
+
+            <div class="normal-limit">
+
+                <span data-i18n="normal_limit">
+                    Batas normal
+                </span>
+
+                <b>
+                    30–35°C
+                </b>
+
+            </div>
+
+
+            <div class="progress">
+
+                <i id="temperatureBar"></i>
+
+            </div>
+
+        </article>
+
+
+        <!-- MOISTURE -->
+
+        <article class="sensor-card">
+
+            <div class="sensor-top">
+
+                <span class="sensor-icon">
+                    💧
+                </span>
+
+                <span class="status-pill"
+                      id="moistureStatus">
+                    NORMAL
+                </span>
+
+            </div>
+
+
+            <small data-i18n="moisture">
+                KELEMBAPAN
+            </small>
+
+
+            <strong class="sensor-value"
+                    id="moisture">
+
+                65
+                <span>%</span>
+
+            </strong>
+
+
+            <div class="normal-limit">
+
+                <span data-i18n="normal_limit">
+                    Batas normal
+                </span>
+
+                <b>
+                    50–70%
+                </b>
+
+            </div>
+
+
+            <div class="progress blue">
+
+                <i id="moistureBar"></i>
+
+            </div>
+
+        </article>
+
+
+        <!-- NPK -->
+
+        <article class="sensor-card npk-card">
+
+            <div class="sensor-top">
+
+                <span class="sensor-icon">
+                    🧪
+                </span>
+
+                <span class="status-pill">
+                    ACTIVE
+                </span>
+
+            </div>
+
+
+            <small>
+                SENSOR NPK
+            </small>
+
+
+            <div class="npk-values">
+
+
+                <div class="npk-value nitrogen">
+
+                    <span>N</span>
+
+                    <div>
+
+                        <small>Nitrogen</small>
+
+                        <strong id="nitrogen">
+                            120
+                        </strong>
+
+                        <em>mg/kg</em>
+
+                    </div>
+
+                </div>
+
+
+                <div class="npk-value phosphorus">
+
+                    <span>P</span>
+
+                    <div>
+
+                        <small>Fosfor</small>
+
+                        <strong id="phosphorus">
+                            80
+                        </strong>
+
+                        <em>mg/kg</em>
+
+                    </div>
+
+                </div>
+
+
+                <div class="npk-value potassium">
+
+                    <span>K</span>
+
+                    <div>
+
+                        <small>Kalium</small>
+
+                        <strong id="potassium">
+                            150
+                        </strong>
+
+                        <em>mg/kg</em>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- ETHERNET -->
+
+        <article class="sensor-card">
+
+            <div class="sensor-top">
+
+                <span class="sensor-icon">
+                    🌐
+                </span>
+
+                <span class="status-pill">
+                    ONLINE
+                </span>
+
+            </div>
+
+
+            <small data-i18n="communication_data">
+                KOMUNIKASI DATA
+            </small>
+
+
+            <strong class="ethernet-value">
+                ETHERNET
+                <span>LINK</span>
+            </strong>
+
+
+            <div class="network-info">
+
+                <div>
+
+                    <span>
+                        Packet
+                    </span>
+
+                    <strong id="packets">
+                        1,248
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Latency
+                    </span>
+
+                    <strong>
+                        12 ms
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <!-- =====================================================
+         CHART AREA
+    ====================================================== -->
+
+    <div class="chart-grid">
+
+
+        <!-- ENVIRONMENT -->
+
+        <article class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        LIVE TREND
+                    </span>
+
+                    <h3 data-i18n="temperature_moisture_chart">
+                        Grafik Suhu & Kelembapan
+                    </h3>
+
+                </div>
+
+
+                <button class="refresh-button"
+                        id="refreshButton">
+
+                    ↻
+                    <span data-i18n="refresh">
+                        Refresh
+                    </span>
+
+                </button>
+
+            </div>
+
+
+            <div class="chart-legend">
+
+                <span>
+                    <i class="legend-temp"></i>
+                    <span data-i18n="temperature">
+                        Suhu
+                    </span>
+                </span>
+
+                <span>
+                    <i class="legend-moist"></i>
+                    <span data-i18n="moisture">
+                        Kelembapan
+                    </span>
+                </span>
+
+                <b>
+                    UPDATE 3s
+                </b>
+
+            </div>
+
+
+            <div class="chart-container">
+
+                <canvas id="sensorChart"></canvas>
+
+            </div>
+
+        </article>
+
+
+        <!-- NPK -->
+
+        <article class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        NPK SENSOR
+                    </span>
+
+                    <h3 data-i18n="npk_chart">
+                        Komposisi Nutrisi NPK
+                    </h3>
+
+                </div>
+
+                <span class="chart-unit">
+                    mg/kg
+                </span>
+
+            </div>
+
+
+            <div class="chart-legend">
+
+                <span>
+                    <i class="legend-n"></i>
+                    N
+                </span>
+
+                <span>
+                    <i class="legend-p"></i>
+                    P
+                </span>
+
+                <span>
+                    <i class="legend-k"></i>
+                    K
+                </span>
+
+            </div>
+
+
+            <div class="chart-container npk-chart-container">
+
+                <canvas id="npkChart"></canvas>
+
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <!-- =====================================================
+         COMMUNICATION ARCHITECTURE
+    ====================================================== -->
+
+    <article class="panel architecture-panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    SYSTEM ARCHITECTURE
+                </span>
+
+                <h3 data-i18n="communication_architecture">
+                    Arsitektur Komunikasi Data
+                </h3>
+
+                <p class="panel-subtitle"
+                   data-i18n="architecture_description">
+                    Aliran data dari transmitter menuju receiver
+                    kemudian diteruskan ke dua jalur utama sistem.
+                </p>
+
+            </div>
+
+            <span class="architecture-status">
+                <i></i>
+                <span data-i18n="ethernet_active">
+                    ETHERNET ACTIVE
+                </span>
+            </span>
+
+        </div>
+
+
+        <div class="architecture">
+
+
+            <!-- TRANSMITTER -->
+
+            <div class="architecture-node transmitter-node">
+
+                <div class="node-icon">
+                    ⇧
+                </div>
+
+                <span class="node-tag">
+                    TRANSMITTER
+                </span>
+
+                <strong>
+                    ATmega328
+                </strong>
+
+                <small data-i18n="sensor_data_source">
+                    Sumber data sensor
+                </small>
+
+                <div class="node-items">
+
+                    <span>🌡️ DS18B20</span>
+                    <span>💧 Moisture</span>
+                    <span>🧪 NPK</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- LINK 1 -->
+
+            <div class="architecture-link">
+
+                <span>
+                    SENSOR DATA
+                </span>
+
+                <div class="link-line">
+                    <i></i>
+                </div>
+
+                <small>
+                    Ethernet
+                </small>
+
+            </div>
+
+
+            <!-- ETHERNET -->
+
+            <div class="architecture-node ethernet-node">
+
+                <div class="node-icon">
+                    🌐
+                </div>
+
+                <span class="node-tag">
+                    DATA LINK
+                </span>
+
+                <strong>
+                    Ethernet
+                </strong>
+
+                <small data-i18n="data_transport">
+                    Jalur komunikasi
+                </small>
+
+                <div class="ethernet-pulse">
+                    <i></i>
+                    <span data-i18n="connected">
+                        Connected
+                    </span>
+                </div>
+
+            </div>
+
+
+            <!-- LINK 2 -->
+
+            <div class="architecture-link">
+
+                <span>
+                    PACKET
+                </span>
+
+                <div class="link-line">
+                    <i></i>
+                </div>
+
+                <small>
+                    RX
+                </small>
+
+            </div>
+
+
+            <!-- RECEIVER -->
+
+            <div class="architecture-node receiver-node">
+
+                <div class="node-icon">
+                    ⇩
+                </div>
+
+                <span class="node-tag">
+                    RECEIVER
+                </span>
+
+                <strong>
+                    ESP32
+                </strong>
+
+                <small data-i18n="data_processor">
+                    Pengolah data & kontrol
+                </small>
+
+                <div class="receiver-status">
+
+                    <span>
+                        <i></i>
+                        ONLINE
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SPLITTER -->
+
+            <div class="architecture-splitter">
+
+                <div class="splitter-core">
+                    ESP32
+                </div>
+
+                <div class="split-line monitoring-line">
+                    <span>MONITORING</span>
+                </div>
+
+                <div class="split-line actuator-line">
+                    <span>AKTUATOR</span>
+                </div>
+
+            </div>
+
+
+            <!-- MONITORING -->
+
+            <div class="architecture-output monitoring-output">
+
+                <div class="output-icon">
+                    ◉
+                </div>
+
+                <strong data-i18n="monitoring">
+                    Monitoring
+                </strong>
+
+                <small data-i18n="monitoring_output">
+                    Dashboard & analitik
+                </small>
+
+                <div class="output-tags">
+
+                    <span>Sensor</span>
+                    <span>Chart</span>
+                    <span>History</span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTUATOR -->
+
+            <div class="architecture-output actuator-output">
+
+                <div class="output-icon">
+                    ⚙
+                </div>
+
+                <strong data-i18n="actuator">
+                    Aktuator
+                </strong>
+
+                <small data-i18n="actuator_output">
+                    Kendali perangkat
+                </small>
+
+                <div class="output-tags">
+
+                    <span>EM4</span>
+                    <span>Water</span>
+                    <span>Fan</span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </article>
+
+
+    <!-- BOTTOM -->
+
+    <div class="bottom-grid">
+
+
+        <article class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        SYSTEM SCORE
+                    </span>
+
+                    <h3 data-i18n="system_health">
+                        Kesehatan Sistem
+                    </h3>
+
+                </div>
+
+                <strong class="big-score"
+                        id="dashboardHealthScore">
+                    98
+                </strong>
+
+            </div>
+
+
+            <div class="system-list">
+
+                <div>
+                    <span>🌡️ Sensor Suhu</span>
+                    <b>Connected</b>
+                </div>
+
+                <div>
+                    <span>💧 Sensor Kelembapan</span>
+                    <b>Connected</b>
+                </div>
+
+                <div>
+                    <span>🧪 Sensor NPK</span>
+                    <b>Active</b>
+                </div>
+
+                <div>
+                    <span>🌐 Ethernet</span>
+                    <b>Stable</b>
+                </div>
+
+                <div>
+                    <span>⚙️ ESP32</span>
+                    <b>Online</b>
+                </div>
+
+            </div>
+
+
+            <div class="health-summary">
+
+                <strong>
+                    EXCELLENT
+                </strong>
+
+                <span data-i18n="all_components_normal">
+                    Semua komponen utama berfungsi normal.
+                </span>
+
+            </div>
+
+        </article>
+
+
+        <article class="panel">
+
+            <div class="panel-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        SYSTEM ACTIVITY
+                    </span>
+
+                    <h3 data-i18n="recent_activity">
+                        Aktivitas Terbaru
+                    </h3>
+
+                </div>
+
+                <strong id="activityCount">
+                    24
+                </strong>
+
+            </div>
+
+
+            <div class="activity-list"
+                 id="activityList">
+
+                <div class="activity">
+
+                    <i></i>
+
+                    <div>
+
+                        <strong data-i18n="dashboard_active">
+                            Sistem dashboard aktif
+                        </strong>
+
+                        <small data-i18n="just_now">
+                            Baru saja
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <i class="blue"></i>
+
+                    <div>
+
+                        <strong data-i18n="sensor_received">
+                            Data sensor diterima
+                        </strong>
+
+                        <small>
+                            1 menit lalu
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="activity">
+
+                    <i class="orange"></i>
+
+                    <div>
+
+                        <strong data-i18n="ethernet_stable">
+                            Koneksi Ethernet stabil
+                        </strong>
+
+                        <small>
+                            3 menit lalu
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     MONITORING
+========================================================= -->
+
+<section class="page"
+         id="monitoring">
+
+    <div class="page-header">
+
+        <span>
+            ◉ REAL-TIME MONITORING
+        </span>
+
+        <h1 data-i18n="monitoring">
+            Monitoring Real-Time
+        </h1>
+
+        <p data-i18n="monitoring_description">
+            Pantau seluruh parameter komposter secara langsung.
+        </p>
+
+    </div>
+
+
+    <div class="monitor-summary">
+
+        <div class="monitor-item">
+
+            <span>🌡️ <span data-i18n="temperature">Suhu</span></span>
+
+            <strong id="monitorTemperature">
+                32.5°C
+            </strong>
+
+            <small id="monitorTempStatus">
+                NORMAL
+            </small>
+
+        </div>
+
+
+        <div class="monitor-item">
+
+            <span>💧 <span data-i18n="moisture">Kelembapan</span></span>
+
+            <strong id="monitorMoisture">
+                65%
+            </strong>
+
+            <small id="monitorMoistStatus">
+                NORMAL
+            </small>
+
+        </div>
+
+
+        <div class="monitor-item">
+
+            <span>🧪 Nitrogen</span>
+
+            <strong id="monitorN">
+                120
+            </strong>
+
+            <small>mg/kg</small>
+
+        </div>
+
+
+        <div class="monitor-item">
+
+            <span>🧪 Fosfor</span>
+
+            <strong id="monitorP">
+                80
+            </strong>
+
+            <small>mg/kg</small>
+
+        </div>
+
+
+        <div class="monitor-item">
+
+            <span>🧪 Kalium</span>
+
+            <strong id="monitorK">
+                150
+            </strong>
+
+            <small>mg/kg</small>
+
+        </div>
+
+    </div>
+
+
+    <article class="panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    REAL-TIME DATA
+                </span>
+
+                <h3 data-i18n="monitoring_trend">
+                    Tren Monitoring Sensor
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="large-chart">
+
+            <canvas id="monitorChart"></canvas>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- =========================================================
+     HISTORY
+========================================================= -->
+
+<section class="page"
+         id="history">
+
+    <div class="page-header">
+
+        <span>
+            ▤ DATA LOG
+        </span>
+
+        <h1 data-i18n="history">
+            Riwayat Monitoring
+        </h1>
+
+        <p data-i18n="history_description">
+            Catatan hasil pembacaan sensor.
+        </p>
+
+    </div>
+
+
+    <article class="panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    MONITORING HISTORY
+                </span>
+
+                <h3 data-i18n="measurement_data">
+                    Data Pengukuran
+                </h3>
+
+            </div>
+
+
+            <button id="clearHistory"
+                    class="danger-button"
+                    data-i18n="clear_history">
+
+                Hapus Riwayat
+
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                <tr>
+
+                    <th>#</th>
+                    <th data-i18n="time">Waktu</th>
+                    <th data-i18n="temperature">Suhu</th>
+                    <th data-i18n="moisture">Kelembapan</th>
+                    <th>Nitrogen</th>
+                    <th>Fosfor</th>
+                    <th>Kalium</th>
+                    <th data-i18n="status">Status</th>
+
+                </tr>
+
+                </thead>
+
+                <tbody id="historyTable"></tbody>
+
+            </table>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- =========================================================
+     ANALYTICS
+========================================================= -->
+
+<section class="page"
+         id="analytics">
+
+    <div class="page-header">
+
+        <span>
+            ◔ ANALYTICS
+        </span>
+
+        <h1 data-i18n="analytics">
+            Analitik & Statistik
+        </h1>
+
+        <p data-i18n="analytics_description">
+            Ringkasan performa dan kualitas pupuk Smart Komposter.
+        </p>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <article class="stat-card">
+
+            <span data-i18n="average_temperature">
+                RATA-RATA SUHU
+            </span>
+
+            <strong id="averageTemperature">
+                32.5°C
+            </strong>
+
+            <small>
+                Normal: 30–35°C
+            </small>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span data-i18n="average_moisture">
+                RATA-RATA KELEMBAPAN
+            </span>
+
+            <strong id="averageMoisture">
+                65%
+            </strong>
+
+            <small>
+                Normal: 50–70%
+            </small>
+
+        </article>
+
+
+        <article class="stat-card">
+
+            <span data-i18n="data_packet">
+                DATA PACKET
+            </span>
+
+            <strong id="analyticsPackets">
+                1,248
+            </strong>
+
+            <small>
+                Ethernet transmission
+            </small>
+
+        </article>
+
+
+        <article class="stat-card quality-stat">
+
+            <span data-i18n="fertilizer_quality">
+                KUALITAS PUPUK
+            </span>
+
+            <strong id="fertilizerQuality">
+                92%
+            </strong>
+
+            <small id="fertilizerQualityText"
+                   data-i18n="quality_excellent">
+                Sangat Baik
+            </small>
+
+        </article>
+
+    </div>
+
+
+    <!-- QUALITY CHART -->
+
+    <article class="panel quality-panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    FERTILIZER ANALYTICS
+                </span>
+
+                <h3 data-i18n="fertilizer_quality_chart">
+                    Grafik Kualitas Pupuk
+                </h3>
+
+                <p class="panel-subtitle"
+                   data-i18n="fertilizer_quality_description">
+                    Indeks kualitas dihitung dari kestabilan suhu,
+                    kelembapan dan keseimbangan nutrisi NPK.
+                </p>
+
+            </div>
+
+            <div class="quality-indicator">
+
+                <span id="qualityIndicatorDot"></span>
+
+                <strong id="qualityIndicatorText">
+                    EXCELLENT
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="quality-chart-wrapper">
+
+            <canvas id="analyticsChart"></canvas>
+
+        </div>
+
+    </article>
+
+
+    <!-- QUALITY FACTORS -->
+
+    <div class="quality-factor-grid">
+
+        <article class="quality-factor">
+
+            <div class="factor-icon">
+                🌡️
+            </div>
+
+            <div>
+
+                <span data-i18n="temperature_stability">
+                    Stabilitas Suhu
+                </span>
+
+                <strong id="tempQuality">
+                    96%
+                </strong>
+
+            </div>
+
+            <div class="factor-progress">
+                <i id="tempQualityBar"></i>
+            </div>
+
+        </article>
+
+
+        <article class="quality-factor">
+
+            <div class="factor-icon">
+                💧
+            </div>
+
+            <div>
+
+                <span data-i18n="moisture_stability">
+                    Kelembapan
+                </span>
+
+                <strong id="moistQuality">
+                    94%
+                </strong>
+
+            </div>
+
+            <div class="factor-progress blue">
+                <i id="moistQualityBar"></i>
+            </div>
+
+        </article>
+
+
+        <article class="quality-factor">
+
+            <div class="factor-icon">
+                🧪
+            </div>
+
+            <div>
+
+                <span data-i18n="npk_balance">
+                    Keseimbangan NPK
+                </span>
+
+                <strong id="npkQuality">
+                    88%
+                </strong>
+
+            </div>
+
+            <div class="factor-progress purple">
+                <i id="npkQualityBar"></i>
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTROL
+========================================================= -->
+
+<section class="page"
+         id="control">
+
+    <div class="page-header">
+
+        <span>
+            ⚙ DEVICE CONTROL
+        </span>
+
+        <h1 data-i18n="control">
+            Kontrol Perangkat
+        </h1>
+
+        <p data-i18n="control_description">
+            Kontrol perangkat pada sistem Smart Komposter.
+        </p>
+
+    </div>
+
+
+    <div class="control-grid">
+
+
+        <article class="control-card">
+
+            <div class="control-icon">
+                🧪
+            </div>
+
+            <span class="device-status off"
+                  id="em4Status">
+                OFF
+            </span>
+
+            <h3 data-i18n="em4_pump">
+                Pompa EM4
+            </h3>
+
+            <p data-i18n="em4_description">
+                Mengalirkan larutan EM4 ke dalam komposter.
+            </p>
+
+            <button class="device-button"
+                    data-device="em4"
+                    data-i18n="turn_on">
+                Nyalakan
+            </button>
+
+        </article>
+
+
+        <article class="control-card">
+
+            <div class="control-icon">
+                💧
+            </div>
+
+            <span class="device-status off"
+                  id="waterStatus">
+                OFF
+            </span>
+
+            <h3 data-i18n="water_pump">
+                Pompa Air
+            </h3>
+
+            <p data-i18n="water_description">
+                Menjaga kelembapan kompos.
+            </p>
+
+            <button class="device-button"
+                    data-device="water"
+                    data-i18n="turn_on">
+                Nyalakan
+            </button>
+
+        </article>
+
+
+        <article class="control-card">
+
+            <div class="control-icon">
+                🌀
+            </div>
+
+            <span class="device-status off"
+                  id="fanStatus">
+                OFF
+            </span>
+
+            <h3 data-i18n="fan">
+                Kipas
+            </h3>
+
+            <p data-i18n="fan_description">
+                Membantu sirkulasi udara komposter.
+            </p>
+
+            <button class="device-button"
+                    data-device="fan"
+                    data-i18n="turn_on">
+                Nyalakan
+            </button>
+
+        </article>
+
+    </div>
+
+
+    <article class="panel auto-control">
+
+        <div>
+
+            <span class="eyebrow">
+                AUTOMATION
+            </span>
+
+            <h3 data-i18n="automatic_mode">
+                Mode Otomatis
+            </h3>
+
+            <p data-i18n="automatic_description">
+                Perangkat dikontrol berdasarkan kondisi sensor.
+            </p>
+
+        </div>
+
+
+        <label class="switch">
+
+            <input type="checkbox"
+                   id="autoMode">
+
+            <span></span>
+
+        </label>
+
+    </article>
+
+</section>
+
+
+<!-- =========================================================
+     TRANSMITTER
+========================================================= -->
+
+<section class="page"
+         id="transmitter">
+
+    <div class="page-header">
+
+        <span>
+            ⇧ TRANSMITTER NODE
+        </span>
+
+        <h1 data-i18n="transmitter_title">
+            Transmitter
+        </h1>
+
+        <p data-i18n="transmitter_description">
+            ATmega328 membaca sensor dan mengirimkan data melalui Ethernet.
+        </p>
+
+    </div>
+
+
+    <div class="node-overview transmitter-overview">
+
+        <div class="node-main-icon">
+            ⇧
+        </div>
+
+        <div>
+
+            <span class="node-label">
+                TRANSMITTER DEVICE
+            </span>
+
+            <h2>
+                ATmega328
+            </h2>
+
+            <p data-i18n="transmitter_role">
+                Akuisisi data sensor lingkungan dan NPK.
+            </p>
+
+        </div>
+
+        <div class="node-live">
+
+            <i></i>
+
+            <strong>
+                ONLINE
+            </strong>
+
+            <small data-i18n="node_ready">
+                Node siap mengirim data
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="device-detail-grid">
+
+        <article class="detail-card">
+
+            <span class="detail-icon">
+                🌡️
+            </span>
+
+            <strong>
+                DS18B20
+            </strong>
+
+            <small data-i18n="temperature_sensor">
+                Sensor suhu
+            </small>
+
+            <b class="connected-label">
+                CONNECTED
+            </b>
+
+        </article>
+
+
+        <article class="detail-card">
+
+            <span class="detail-icon">
+                💧
+            </span>
+
+            <strong data-i18n="moisture_sensor">
+                Moisture Sensor
+            </strong>
+
+            <small data-i18n="moisture_sensor_description">
+                Sensor kelembapan
+            </small>
+
+            <b class="connected-label">
+                CONNECTED
+            </b>
+
+        </article>
+
+
+        <article class="detail-card">
+
+            <span class="detail-icon">
+                🧪
+            </span>
+
+            <strong>
+                NPK Sensor
+            </strong>
+
+            <small data-i18n="npk_sensor_description">
+                Pembacaan nutrisi tanah
+            </small>
+
+            <b class="connected-label">
+                ACTIVE
+            </b>
+
+        </article>
+
+    </div>
+
+
+    <article class="panel data-flow-panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    TRANSMITTER FLOW
+                </span>
+
+                <h3 data-i18n="transmitter_flow">
+                    Alur Data Transmitter
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="data-flow">
+
+            <div class="flow-step">
+
+                <span>01</span>
+                <strong data-i18n="read_sensor">
+                    Baca Sensor
+                </strong>
+
+            </div>
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+            <div class="flow-step">
+
+                <span>02</span>
+                <strong data-i18n="process_data">
+                    Proses Data
+                </strong>
+
+            </div>
+
+            <div class="flow-arrow">
+                →
+            </div>
+
+            <div class="flow-step active-flow">
+
+                <span>03</span>
+                <strong data-i18n="send_ethernet">
+                    Kirim Ethernet
+                </strong>
+
+            </div>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- =========================================================
+     RECEIVER
+========================================================= -->
+
+<section class="page"
+         id="receiver">
+
+    <div class="page-header">
+
+        <span>
+            ⇩ RECEIVER NODE
+        </span>
+
+        <h1 data-i18n="receiver_title">
+            Receiver
+        </h1>
+
+        <p data-i18n="receiver_description">
+            ESP32 menerima data Ethernet, memproses monitoring dan mengendalikan aktuator.
+        </p>
+
+    </div>
+
+
+    <div class="node-overview receiver-overview">
+
+        <div class="node-main-icon">
+            ⇩
+        </div>
+
+        <div>
+
+            <span class="node-label">
+                RECEIVER DEVICE
+            </span>
+
+            <h2>
+                ESP32
+            </h2>
+
+            <p data-i18n="receiver_role">
+                Pengolah data, monitoring dan kontrol aktuator.
+            </p>
+
+        </div>
+
+        <div class="node-live">
+
+            <i></i>
+
+            <strong>
+                ONLINE
+            </strong>
+
+            <small data-i18n="receiver_ready">
+                Node siap menerima data
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="receiver-path-grid">
+
+        <article class="receiver-path">
+
+            <div class="path-icon">
+                ◉
+            </div>
+
+            <div>
+
+                <span>
+                    PATH 01
+                </span>
+
+                <h3 data-i18n="monitoring">
+                    Monitoring
+                </h3>
+
+                <p data-i18n="receiver_monitoring">
+                    Data sensor diteruskan ke sistem monitoring dashboard.
+                </p>
+
+            </div>
+
+            <div class="path-status">
+                ACTIVE
+            </div>
+
+        </article>
+
+
+        <article class="receiver-path actuator-path">
+
+            <div class="path-icon">
+                ⚙
+            </div>
+
+            <div>
+
+                <span>
+                    PATH 02
+                </span>
+
+                <h3 data-i18n="actuator">
+                    Aktuator
+                </h3>
+
+                <p data-i18n="receiver_actuator">
+                    ESP32 mengatur perangkat berdasarkan kondisi sistem.
+                </p>
+
+            </div>
+
+            <div class="path-status">
+                READY
+            </div>
+
+        </article>
+
+    </div>
+
+
+    <article class="panel receiver-processing">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <span class="eyebrow">
+                    RECEIVER PROCESSING
+                </span>
+
+                <h3 data-i18n="receiver_processing">
+                    Proses Data ESP32
+                </h3>
+
+            </div>
+
+        </div>
+
+
+        <div class="processing-steps">
+
+            <div class="processing-step">
+
+                <span>01</span>
+
+                <strong data-i18n="receive_packet">
+                    Terima Packet
+                </strong>
+
+            </div>
+
+            <div class="processing-step">
+
+                <span>02</span>
+
+                <strong data-i18n="validate_data">
+                    Validasi Data
+                </strong>
+
+            </div>
+
+            <div class="processing-step">
+
+                <span>03</span>
+
+                <strong data-i18n="monitoring_control">
+                    Monitoring & Kontrol
+                </strong>
+
+            </div>
+
+        </div>
+
+    </article>
+
+</section>
+
+
+<!-- =========================================================
+     STATUS
+========================================================= -->
+
+<section class="page"
+         id="status">
+
+    <div class="page-header">
+
+        <span>
+            ◈ SYSTEM STATUS
+        </span>
+
+        <h1 data-i18n="system_status">
+            Status Sistem
+        </h1>
+
+        <p data-i18n="status_description">
+            Kondisi komunikasi dan perangkat.
+        </p>
+
+    </div>
+
+
+    <div class="status-grid">
+
+        <article class="status-main">
+
+            <div class="status-circle"
+                 id="statusHealth">
+                98%
+            </div>
+
+            <h2 data-i18n="system_normal">
+                Sistem Beroperasi Normal
+            </h2>
+
+            <p data-i18n="status_all_connected">
+                Semua modul utama terhubung dan siap digunakan.
+            </p>
+
+        </article>
+
+
+        <article class="panel">
+
+            <div class="system-list">
+
+                <div>
+                    <span>ATmega328</span>
+                    <b>ONLINE</b>
+                </div>
+
+                <div>
+                    <span>ESP32</span>
+                    <b>ONLINE</b>
+                </div>
+
+                <div>
+                    <span>Ethernet</span>
+                    <b>CONNECTED</b>
+                </div>
+
+                <div>
+                    <span>Sensor NPK</span>
+                    <b>ACTIVE</b>
+                </div>
+
+                <div>
+                    <span>Sensor Lingkungan</span>
+                    <b>ACTIVE</b>
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     NOTIFICATIONS
+========================================================= -->
+
+<section class="page"
+         id="notifications">
+
+    <div class="page-header">
+
+        <span>
+            🔔 ALERT CENTER
+        </span>
+
+        <h1 data-i18n="notifications">
+            Notifikasi
+        </h1>
+
+        <p data-i18n="notifications_description">
+            Informasi penting sistem.
+        </p>
+
+    </div>
+
+
+    <div class="notifications">
+
+
+        <article>
+
+            <span class="notice green">
+                ✓
+            </span>
+
+            <div>
+
+                <strong data-i18n="system_online">
+                    Sistem online
+                </strong>
+
+                <p data-i18n="notification_online">
+                    Koneksi Ethernet dan ESP32 aktif.
+                </p>
+
+                <small data-i18n="just_now">
+                    Baru saja
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article>
+
+            <span class="notice blue">
+                ↻
+            </span>
+
+            <div>
+
+                <strong data-i18n="sensor_updated">
+                    Data sensor diperbarui
+                </strong>
+
+                <p data-i18n="notification_sensor">
+                    Data suhu, kelembapan dan NPK berhasil diperbarui.
+                </p>
+
+                <small>
+                    1 menit lalu
+                </small>
+
+            </div>
+
+        </article>
+
+
+        <article>
+
+            <span class="notice orange">
+                i
+            </span>
+
+            <div>
+
+                <strong data-i18n="simulation_active">
+                    Mode simulasi aktif
+                </strong>
+
+                <p data-i18n="notification_simulation">
+                    Nilai sensor menggunakan simulasi lokal.
+                </p>
+
+                <small>
+                    3 menit lalu
+                </small>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     SETTINGS
+========================================================= -->
+
+<section class="page"
+         id="settings">
+
+    <div class="page-header">
+
+        <span>
+            ⚙ SETTINGS
+        </span>
+
+        <h1 data-i18n="settings">
+            Pengaturan
+        </h1>
+
+        <p data-i18n="settings_description">
+            Atur preferensi dashboard.
+        </p>
+
+    </div>
+
+
+    <div class="settings-grid">
+
+
+        <article class="panel setting">
+
+            <div>
+
+                <span class="setting-icon">
+                    ◐
+                </span>
+
+                <div>
+
+                    <strong data-i18n="appearance">
+                        Tampilan
+                    </strong>
+
+                    <p data-i18n="appearance_description">
+                        Ubah mode terang atau gelap.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button class="secondary-button"
+                    id="themeSettings"
+                    data-i18n="change_theme">
+
+                Ubah Tema
+
+            </button>
+
+        </article>
+
+
+        <article class="panel setting">
+
+            <div>
+
+                <span class="setting-icon">
+                    文
+                </span>
+
+                <div>
+
+                    <strong data-i18n="language">
+                        Bahasa
+                    </strong>
+
+                    <p data-i18n="language_description">
+                        Pilih bahasa dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <select id="languageSettings"
+                    class="setting-select">
+
+                <option value="id">
+                    Indonesia
+                </option>
+
+                <option value="en">
+                    English
+                </option>
+
+            </select>
+
+        </article>
+
+
+        <article class="panel setting">
+
+            <div>
+
+                <span class="setting-icon">
+                    ◉
+                </span>
+
+                <div>
+
+                    <strong data-i18n="sensor_simulation">
+                        Simulasi Sensor
+                    </strong>
+
+                    <p data-i18n="simulation_description">
+                        Aktifkan perubahan sensor otomatis.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <label class="switch">
+
+                <input type="checkbox"
+                       id="simulation"
+                       checked>
+
+                <span></span>
+
+            </label>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+</div>
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+     TOAST
+========================================================= -->
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
